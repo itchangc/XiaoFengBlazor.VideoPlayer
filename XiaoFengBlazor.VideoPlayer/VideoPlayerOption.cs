@@ -49,7 +49,11 @@ public class VideoPlayerOption
 
     //public bool EnableSourceset { get; set; }
 
-    //public string? TechOrder { get; set; } = "['html5', 'flash']";
+    //public string[] TechOrder { get; set; } = new string[] { "html5", "flvjs" };
+    //public string? TechOrder { get; set; } = "{ \"html5\", \"flvjs\" }";
+
+    //public string? Flvjs { get; set; } = "{ \"mediaDataSource\": { \"isLive\": true, \"cors\": true, \"withCredentials\": false } }";
+
 
     /// <summary>
     /// 界面语言,默认 zh-CN

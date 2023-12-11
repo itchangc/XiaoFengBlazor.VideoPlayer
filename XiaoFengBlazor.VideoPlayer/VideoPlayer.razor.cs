@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
+﻿
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
@@ -101,6 +95,13 @@ public partial class VideoPlayer : IAsyncDisposable
     [Parameter]
     public string? Language { get; set; }
 
+    //[Parameter]
+    //public string? TechOrder { get; set; } = "{ \"html5\", \"flvjs\" }";
+
+    //[Parameter]
+    //public string? Flvjs { get; set; } = "{ \"mediaDataSource\": { \"isLive\": true, \"cors\": true, \"withCredentials\": false } }";
+
+
     /// <summary>
     /// 显示调试信息
     /// </summary>
@@ -157,6 +158,10 @@ public partial class VideoPlayer : IAsyncDisposable
 
             await JSRuntime.InvokeAsync<IJSObjectReference>("import", VideoJsPath);
 
+            //flv
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/flv.js" + "?v=" + Ver);
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/videojs-flvjs.min.js" + "?v=" + Ver);
+
             Module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/XiaoFengBlazor.VideoPlayer/VideoPlayer.razor.js" + "?v=" + Ver);
 
             Language = Language ?? CultureInfo.CurrentCulture.Name;
@@ -208,6 +213,8 @@ public partial class VideoPlayer : IAsyncDisposable
                     Preload = Preload,
                     Poster = Poster,
                     Language = Language,
+                    //TechOrder = TechOrder,
+                    //Flvjs = Flvjs,
                 };
                 option.Sources.Add(new VideoSources(MineType, Url));
                 await Module.InvokeVoidAsync("loadPlayer", Instance, Id, option);
