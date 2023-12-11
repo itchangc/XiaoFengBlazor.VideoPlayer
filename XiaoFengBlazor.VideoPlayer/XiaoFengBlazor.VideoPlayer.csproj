@@ -1,0 +1,107 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<Title>XiaoFengBlazor.VideoPlayer</Title>
+		<Authors>auto-chang</Authors>
+		<Description>XiaoFengBlazor.VideoPlayer基于Video.js类库，支持IPC流媒体直播，http//:ip.flv、ws//:ip.flv、http//:ip.mp4、m3u8等播放流</Description>
+		<RepositoryUrl>https://github.com/zhuovi/XiaoFeng.Onvif</RepositoryUrl>
+		<PackageProjectUrl>https://www.yuque.com/fayelf/xiaofeng</PackageProjectUrl>
+		<PackageIcon>gb28181.jpg</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>FAYELF;XiaoFeng;VideoPlayer;Blazor;flv;mp4;webrtc;m3u8;GB28181;$(Authors)</PackageTags>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<VersionPrefix>1.0</VersionPrefix>
+		<VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
+		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
+		<Copyright>©2022-2023 XiaoFeng</Copyright>
+		<RepositoryType>git</RepositoryType>
+		<PackageReleaseNotes>兼容任何版本</PackageReleaseNotes>
+		<AssemblyVersion>$(VersionPrefix).$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IncludeSymbols>False</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<!-- 通过移除正常的引用并替换成固定版本的引用，达到无论如何更新都无法生效的目的。 -->
+	<Target Condition="'$(TargetFramework)' == 'net6.0'" Name="ReferenceStaticLegacyPackage" BeforeTargets="CollectPackageReferences">
+		<ItemGroup>
+			<PackageReference Remove="Microsoft.AspNetCore.Components.Web" />
+			<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0" />
+		</ItemGroup>
+	</Target>
+	<ItemGroup>
+		<None Include="gb28181.jpg" Pack="true" Visible="false" PackagePath="" />
+		<None Include="README.md" Pack="true" Visible="false" PackagePath="" />
+		<None Include="LICENSE" Pack="true" Visible="false" PackagePath="" />
+		<None Include="wwwroot\lang\ar.js" />
+		<None Include="wwwroot\lang\ba.js" />
+		<None Include="wwwroot\lang\bg.js" />
+		<None Include="wwwroot\lang\bn.js" />
+		<None Include="wwwroot\lang\ca.js" />
+		<None Include="wwwroot\lang\cs.js" />
+		<None Include="wwwroot\lang\cy.js" />
+		<None Include="wwwroot\lang\da.js" />
+		<None Include="wwwroot\lang\de.js" />
+		<None Include="wwwroot\lang\el.js" />
+		<None Include="wwwroot\lang\en-GB.js" />
+		<None Include="wwwroot\lang\en.js" />
+		<None Include="wwwroot\lang\es.js" />
+		<None Include="wwwroot\lang\et.js" />
+		<None Include="wwwroot\lang\eu.js" />
+		<None Include="wwwroot\lang\fa.js" />
+		<None Include="wwwroot\lang\fi.js" />
+		<None Include="wwwroot\lang\fr.js" />
+		<None Include="wwwroot\lang\gd.js" />
+		<None Include="wwwroot\lang\gl.js" />
+		<None Include="wwwroot\lang\he.js" />
+		<None Include="wwwroot\lang\hi.js" />
+		<None Include="wwwroot\lang\hr.js" />
+		<None Include="wwwroot\lang\hu.js" />
+		<None Include="wwwroot\lang\it.js" />
+		<None Include="wwwroot\lang\ja.js" />
+		<None Include="wwwroot\lang\ko.js" />
+		<None Include="wwwroot\lang\lv.js" />
+		<None Include="wwwroot\lang\nb.js" />
+		<None Include="wwwroot\lang\nl.js" />
+		<None Include="wwwroot\lang\nn.js" />
+		<None Include="wwwroot\lang\oc.js" />
+		<None Include="wwwroot\lang\pl.js" />
+		<None Include="wwwroot\lang\pt-BR.js" />
+		<None Include="wwwroot\lang\pt-PT.js" />
+		<None Include="wwwroot\lang\ro.js" />
+		<None Include="wwwroot\lang\ru.js" />
+		<None Include="wwwroot\lang\sk.js" />
+		<None Include="wwwroot\lang\sl.js" />
+		<None Include="wwwroot\lang\sr.js" />
+		<None Include="wwwroot\lang\sv.js" />
+		<None Include="wwwroot\lang\te.js" />
+		<None Include="wwwroot\lang\th.js" />
+		<None Include="wwwroot\lang\tr.js" />
+		<None Include="wwwroot\lang\uk.js" />
+		<None Include="wwwroot\lang\vi.js" />
+		<None Include="wwwroot\lang\zh-CN.js" />
+		<None Include="wwwroot\lang\zh-Hans.js" />
+		<None Include="wwwroot\lang\zh-Hant.js" />
+		<None Include="wwwroot\lang\zh-TW.js" />
+	</ItemGroup>
+
+</Project>
