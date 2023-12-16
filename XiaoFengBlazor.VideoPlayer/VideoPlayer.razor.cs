@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using static System.Net.WebRequestMethods;
 
 namespace XiaoFengBlazor.Components;
 
@@ -153,14 +154,17 @@ public partial class VideoPlayer : IAsyncDisposable
     {
         if (firstRender)
         {
-            CssPath = CssPath ?? "./_content/XiaoFengBlazor.VideoPlayer/video-js.min.css" + "?v=" + Ver;
-            VideoJsPath = VideoJsPath ?? $"./_content/XiaoFengBlazor.VideoPlayer/video.min.js" + "?v=" + Ver;
-
+            CssPath = CssPath ?? "./_content/XiaoFengBlazor.VideoPlayer/video-js.min.css";
+            VideoJsPath = VideoJsPath ?? $"./_content/XiaoFengBlazor.VideoPlayer/video.min.js";
+            //"https://cdn.bootcdn.net/ajax/libs/video.js/7.21.5/alt/video.core.min.js"; √
+            // "https://cdn.bootcdn.net/ajax/libs/video.js/7.11.4/alt/video.core.min.js";  √
+            // "https://vjs.zencdn.net/7.11.4/video.min.js";    √
             await JSRuntime.InvokeAsync<IJSObjectReference>("import", VideoJsPath);
 
             //flv
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/flv.js" + "?v=" + Ver);
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/videojs-flvjs.min.js" + "?v=" + Ver);
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import",$"./_content/XiaoFengBlazor.VideoPlayer/flv.js");
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/videojs-flvjs.min.js"
+                );
 
             Module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/XiaoFengBlazor.VideoPlayer/VideoPlayer.razor.js" + "?v=" + Ver);
 
@@ -213,8 +217,16 @@ public partial class VideoPlayer : IAsyncDisposable
                     Preload = Preload,
                     Poster = Poster,
                     Language = Language,
-                    //TechOrder = TechOrder,
-                    //Flvjs = Flvjs,
+                    TechOrder = new[] { "html5", "flvjs" },
+                    Flvjs = new FlvOptions
+                    {
+                        MediaDataSource = new FlvOptions.MediaDataSourceOption
+                        {
+                            IsLive = true,
+                            Cors = true,
+                            WithCredentials = false
+                        }
+                    }
                 };
                 option.Sources.Add(new VideoSources(MineType, Url));
                 await Module.InvokeVoidAsync("loadPlayer", Instance, Id, option);

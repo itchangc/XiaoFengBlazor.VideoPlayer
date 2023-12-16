@@ -10,14 +10,20 @@
 
 <VideoPlayer MineType="video/mp4" Url="//vjs.zencdn.net/v/oceans.mp4" Width="400" Height="300" Autoplay="false" Poster="//vjs.zencdn.net/v/oceans.png" />
  *@
- 
 
 
-@* <VideoPlayer MineType="video/x-flv" Url="http://192.168.0.194:80/rtp/02930F45.live.flv" Width="400" Height="300" Autoplay="true" />
+<VideoPlayer 
+    MineType="video/x-flv"
+    Url="ws://192.168.0.194:80/rtp/02930F45.live.flv"
+    Width="400" 
+    Height="300" 
+    Autoplay="true" 
+    VideoJsPath="./video/video.min.js"
+             CssPath="./video/video-js.min.css" />
+
+
+@* <VideoPlayer MineType="video/mp4" Url="http://192.168.0.194:80/rtp/02930F45.live.mp4" Width="400" Height="300" Autoplay="true" />
  *@
-
-<VideoPlayer MineType="video/mp4" Url="http://192.168.0.194:80/rtp/02930F45.live.mp4" Width="400" Height="300" Autoplay="true" />
-
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />

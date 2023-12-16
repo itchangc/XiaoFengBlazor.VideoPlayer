@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,9 +55,23 @@ public class VideoPlayerOption
 
     //public string? Flvjs { get; set; } = "{ \"mediaDataSource\": { \"isLive\": true, \"cors\": true, \"withCredentials\": false } }";
 
+    public string[] TechOrder { get; set; }
+    public FlvOptions Flvjs { get; set; }
+
 
     /// <summary>
     /// 界面语言,默认 zh-CN
     /// </summary>
     public string? Language { get; set; } = "zh-CN";
+}
+public class FlvOptions
+{
+    public MediaDataSourceOption MediaDataSource { get; set; }
+
+    public class MediaDataSourceOption
+    {
+        public bool IsLive { get; set; }
+        public bool Cors { get; set; }
+        public bool WithCredentials { get; set; }
+    }
 }

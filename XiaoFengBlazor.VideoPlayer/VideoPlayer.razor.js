@@ -2,10 +2,10 @@
 var player = null;
 
 export function loadPlayer(instance, id, options) {
-    
     console.log('player id', id);
+    console.log('options', options);
+
     player = videojs(id, options);
-   
     player.ready(function () {
         console.log('player.ready');
 
