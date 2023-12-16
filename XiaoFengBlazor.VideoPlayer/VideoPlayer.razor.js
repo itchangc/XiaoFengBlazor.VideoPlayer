@@ -4,20 +4,6 @@ var player = null;
 export function loadPlayer(instance, id, options) {
     
     console.log('player id', id);
-    var options = {};
-
-    // Add 'techOrder' array to the 'options' object
-    options.techOrder = ['html5', 'flvjs'];
-
-    // Add 'flvjs' object to the 'options' object with nested properties
-    options.flvjs = {
-        mediaDataSource: {
-            isLive: true,
-            cors: true,
-            withCredentials: false,
-        }
-    };
-
     player = videojs(id, options);
    
     player.ready(function () {
