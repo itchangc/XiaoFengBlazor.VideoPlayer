@@ -17,7 +17,9 @@ export function loadPlayerList(instance, id, options) {
         instance.invokeMethodAsync('GetInit');
         // 首次加载
         player.src(videoSources[currentVideoIndex]);
-        player.play();
+        if (options.autoplay) {
+            player.play();
+        }
     });
     // 监听视频播放结束事件
     player.on('ended', function () {
@@ -31,9 +33,6 @@ export function loadPlayerList(instance, id, options) {
     return false;
 }
  
-
-
-
 export function loadPlayer(instance, id, options) {
     console.log('player sources id:', id);
     console.log('options:', options);
@@ -66,6 +65,27 @@ export function setPoster(poster) {
     //  获取封面和设置封面
     console.log(player.poster());
     player.poster(poster);
+}
+
+export function reloadPlayerList(videoSources) {
+    if (!player.paused) {
+        player.pause();
+    }
+    // 当前播放视频索引
+    var currentVideoIndex = 0;
+    // 首次加载
+    player.src(videoSources[currentVideoIndex]);
+    player.load();
+    player.play();
+    // 监听视频播放结束事件
+    player.on('ended', function () {
+        currentVideoIndex++;
+        if (currentVideoIndex >= videoSources.length) {
+            currentVideoIndex = 0; // 如果需要循环播放则重置索引，或者移除此行以停止播放。
+        }
+        player.src(videoSources[currentVideoIndex]);
+        player.play();
+    });
 }
 
 export function reloadPlayer(videoSource, type) {

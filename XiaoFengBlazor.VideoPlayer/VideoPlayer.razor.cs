@@ -42,8 +42,8 @@ public partial class VideoPlayer : IAsyncDisposable
     /// 资源地址
     /// </summary>
     [Parameter]
-    [NotNull]
-    [EditorRequired]
+    //[NotNull]
+    //[EditorRequired]
     public string? Url { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public partial class VideoPlayer : IAsyncDisposable
     /// <para>更多参考 EnumVideoType</para>
     /// </summary>
     [Parameter]
-    [NotNull]
+    //[NotNull]
     public EnumVideoType MineType { get; set; } = EnumVideoType.mp4;
 
     /// <summary>
@@ -235,7 +235,7 @@ public partial class VideoPlayer : IAsyncDisposable
     {
         if (!IsInitialized)
         {
-            if (string.IsNullOrEmpty(Url))
+            if (string.IsNullOrEmpty(Url) && SourcesList == null)
             {
                 await Logger($"Url is empty");
             }
@@ -262,13 +262,25 @@ public partial class VideoPlayer : IAsyncDisposable
                     option.SourcesList = SourcesList;
                     await Module.InvokeVoidAsync("loadPlayerList", Instance, Id, option);
                 }
-                else 
+                else
                 {
                     option.Sources.Add(new VideoSources(MineType, Url));
                     await Module.InvokeVoidAsync("loadPlayer", Instance, Id, option);
                 }
             }
         }
+    }
+    /// <summary>
+    /// 切换播放资源列表
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="mineType"></param>
+    /// <returns></returns>
+    public virtual async Task ReloadList(List<VideoSources>? videoSources)
+    {
+        SourcesList = videoSources;
+        await MakesurePlayerReady();
+        await Module.InvokeVoidAsync("reloadPlayerList", videoSources);
     }
 
     /// <summary>
