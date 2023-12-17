@@ -97,6 +97,44 @@
 </style>
 ```
 
+### 视频源切换功能
+```
+@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+<button @onclick="DoSomethingWithChildElement">切换视频源</button>
+
+@*
+<VideoPlayer MineType=EnumVideoType.mp4 Url="http://192.168.0.194:80/rtp/02930F45.live.mp4" VideoJsPath="./video/video.min.js"
+             CssPath="./video/video-js.min.css" Liveui=true /> *@
+
+<VideoPlayer MineType=EnumVideoType.mp4 Url="http://192.168.0.194:80/rtp/02930F45.live.mp4" VideoJsPath="./video/video.min.js"
+             CssPath="./video/video-js.min.css" Liveui=true SourcesList=@videoSources Autoplay=false @ref="childComponent" />
+
+
+@code {
+    private VideoPlayer childComponent;
+
+    private async Task DoSomethingWithChildElement()
+    {
+        await childComponent.ReloadList(new List<VideoSources>
+            {
+                new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-34-27-25.mp4"),
+                new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-36-29-26.mp4")
+            });
+    }
+
+    List<VideoSources> videoSources = new List<VideoSources>
+    {
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-30-23-23.mp4"),
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-32-25-24.mp4"),
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-34-27-25.mp4"),
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-36-29-26.mp4")
+    };
+
+}
+```
+
 
 4.参数说明
 
