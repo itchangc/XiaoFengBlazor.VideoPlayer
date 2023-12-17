@@ -37,14 +37,19 @@ public class VideoPlayerOption
     public List<VideoSources> Sources { get; set; } = new List<VideoSources>();
 
     /// <summary>
+    /// 播放列表
+    /// </summary>
+    public List<VideoSources> SourcesList { get; set; } = new List<VideoSources>();
+
+    /// <summary>
     /// 设置封面资源,相对或者绝对路径
     /// </summary>
     public string? Poster { get; set; }
 
     //public bool EnableSourceset { get; set; }
 
- 
-    public string[] TechOrder { get; set; } = new[] { "html5", "flvjs"};
+
+    public string[] TechOrder { get; set; } = new[] { "html5", "flvjs" };
     public FlvOptions Flvjs { get; set; } = new FlvOptions
     {
         MediaDataSource = new FlvOptions.MediaDataSourceOption
@@ -70,7 +75,7 @@ public class VideoPlayerOption
     /// <summary>
     /// 严格大于 0 的数字数组，其中 1 表示正常速度 （100%）、0.5表示半速（50%）、2表示双速（200%）等
     /// </summary>
-    public double[] PlaybackRates { get; set; } =new[] { 0.5, 1, 1.5, 2,2.5,3,3.5,4,4.5,5 };
+    public double[] PlaybackRates { get; set; } = new[] { 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5 };
 
     /// <summary>
     /// 界面语言,默认 zh-CN

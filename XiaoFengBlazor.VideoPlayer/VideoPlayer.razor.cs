@@ -33,10 +33,10 @@ public partial class VideoPlayer : IAsyncDisposable
     private string? Id { get; set; }
 
     /// <summary>
-    /// 播放资源
+    /// 播放资源列表-静态MP4播放使用
     /// </summary>
     [Parameter]
-    public List<VideoSources>? VideoSources { get; set; }
+    public List<VideoSources>? SourcesList { get; set; }
 
     /// <summary>
     /// 资源地址
@@ -257,9 +257,16 @@ public partial class VideoPlayer : IAsyncDisposable
                     Fluid = Fluid,
                     PlaybackRates = PlaybackRates,
                 };
-                option.Sources.Add(new VideoSources(MineType, Url));
-                //option.Sources.Add(Sources);
-                await Module.InvokeVoidAsync("loadPlayer", Instance, Id, option);
+                if (SourcesList != null)
+                {
+                    option.SourcesList = SourcesList;
+                    await Module.InvokeVoidAsync("loadPlayerList", Instance, Id, option);
+                }
+                else 
+                {
+                    option.Sources.Add(new VideoSources(MineType, Url));
+                    await Module.InvokeVoidAsync("loadPlayer", Instance, Id, option);
+                }
             }
         }
     }
