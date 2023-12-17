@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+
 namespace XiaoFengBlazor.Components;
 
 /// <summary>
@@ -17,9 +18,9 @@ public class VideoSources
     /// </summary>
     /// <param name="type"></param>
     /// <param name="src"></param>
-    public VideoSources(string type, string src)
+    public VideoSources(EnumVideoType type, string src)
     {
-        Type = type;
+        Type = type.GetDescription();
         Src = src;
     }
 
@@ -31,7 +32,7 @@ public class VideoSources
     /// <para>video/x-matroska</para>
     /// <para>更多参考 EnumVideoType</para>
     /// </summary>
-    public string Type { get; set; } = "application/x-mpegURL";
+    public string Type { get; set; } = EnumVideoType.mp4.GetDescription();
 
     /// <summary>
     /// 资源地址

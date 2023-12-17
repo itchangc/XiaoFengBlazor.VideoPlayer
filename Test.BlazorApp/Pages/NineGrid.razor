@@ -1,0 +1,46 @@
+﻿@page "/ninegrid"
+<PageTitle>NineGrid</PageTitle>
+
+
+<VideoPlayer MineType=EnumVideoType.flv
+             Url="ws://192.168.0.194:80/rtp/02930F45.live.flv"
+             Width="400"
+             Height="300"
+             Autoplay="true"
+             Liveui=true
+             VideoJsPath="./video/video.min.js"
+             CssPath="./video/video-js.min.css"
+             so
+             />
+
+
+<div class="grid-container">
+    @for (int i = 0; i < 4; i++)
+    {
+        <div class="grid-item">
+            <VideoPlayer MineType=EnumVideoType.flv
+                         Url="ws://192.168.0.194:80/rtp/02930F45.live.flv"
+                         Width="400"
+                         Height="300"
+                         Autoplay="true"
+                         Liveui=true
+                         VideoJsPath="./video/video.min.js"
+                         CssPath="./video/video-js.min.css" />
+        </div>
+    }
+</div>
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+.grid-item {
+  padding: 20px;
+  text-align: center;
+}
+</style>
+
+ 
+ 
+ 

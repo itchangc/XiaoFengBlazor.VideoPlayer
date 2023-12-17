@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace XiaoFengBlazor.Components;
 
@@ -14,47 +8,115 @@ namespace XiaoFengBlazor.Components;
 /// </summary>
 public enum EnumVideoType
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("video/ogg")]
     opus,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("video/ogg")]
     ogv,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("video/mp4")]
     mp4,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("video/mp4")]
     mov,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("video/mp4")]
     m4v,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("video/x-matroska")]
     mkv,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/mp4")]
     m4a,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/mpeg")]
     mp3,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/aac")]
     aac,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/x-caf")]
     caf,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/flac")]
     flac,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/ogg")]
     oga,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("audio/wav")]
     wav,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("application/x-mpegURL")]
     m3u8,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("application/dash+xml")]
     mpd,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("image/jpeg")]
     jpg,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("image/jpeg")]
     jpeg,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("image/gif")]
     gif,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("image/png")]
     png,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("image/svg+xml")]
     svg,
+    /// <summary>
+    /// 
+    /// </summary>
     [Description("image/webp")]
     webp,
-
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("video/x-flv")]
+    flv,
 }
+ 

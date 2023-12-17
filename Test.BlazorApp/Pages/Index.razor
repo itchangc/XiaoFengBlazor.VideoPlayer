@@ -2,7 +2,7 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+ 
 
 @* <VideoPlayer MineType="application/x-mpegURL" Url="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
 
@@ -12,19 +12,19 @@
  *@
 
 
-<VideoPlayer 
-    MineType="video/x-flv"
-    Url="ws://192.168.0.194:80/rtp/02930F45.live.flv"
-    Width="400" 
-    Height="300" 
-    Autoplay="true" 
-    VideoJsPath="./video/video.min.js"
+<VideoPlayer MineType=EnumVideoType.flv
+             Url="ws://192.168.0.194:80/rtp/02930F45.live.flv"
+             Width="400"
+             Height="300"
+             Autoplay="true"
+             Liveui=true
+             VideoJsPath="./video/video.min.js"
              CssPath="./video/video-js.min.css" />
 
 
 @* <VideoPlayer MineType="video/mp4" Url="http://192.168.0.194:80/rtp/02930F45.live.mp4" Width="400" Height="300" Autoplay="true" />
  *@
-Welcome to your new app.
+ 
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+ 
 

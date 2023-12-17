@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using static System.Net.WebRequestMethods;
 
 namespace XiaoFengBlazor.Components;
 
@@ -34,6 +33,12 @@ public partial class VideoPlayer : IAsyncDisposable
     private string? Id { get; set; }
 
     /// <summary>
+    /// 播放资源
+    /// </summary>
+    [Parameter]
+    public List<VideoSources>? VideoSources { get; set; }
+
+    /// <summary>
     /// 资源地址
     /// </summary>
     [Parameter]
@@ -51,7 +56,7 @@ public partial class VideoPlayer : IAsyncDisposable
     /// </summary>
     [Parameter]
     [NotNull]
-    public string? MineType { get; set; } = "application/x-mpegURL";
+    public EnumVideoType MineType { get; set; } = EnumVideoType.mp4;
 
     /// <summary>
     /// 宽度
@@ -96,12 +101,40 @@ public partial class VideoPlayer : IAsyncDisposable
     [Parameter]
     public string? Language { get; set; }
 
-    //[Parameter]
-    //public string? TechOrder { get; set; } = "{ \"html5\", \"flvjs\" }";
+    [Parameter]
+    public string[] TechOrder { get; set; } = new[] { "html5", "flvjs" };
+    [Parameter]
+    public FlvOptions Flvjs { get; set; } = new FlvOptions
+    {
+        MediaDataSource = new FlvOptions.MediaDataSourceOption
+        {
+            IsLive = true,
+            Cors = true,
+            WithCredentials = false
+        }
+    };
+    /// <summary>
+    /// 用于定义用户在多少毫秒内没有与播放器进行交互之后，系统会将其判定为“不活跃”
+    /// </summary>
+    [Parameter]
+    public int InactivityTimeout { get; set; } = 0;
+    /// <summary>
+    /// 允许玩家使用新的实时 UI
+    /// </summary>
+    [Parameter]
+    public bool Liveui { get; set; } = false;
 
-    //[Parameter]
-    //public string? Flvjs { get; set; } = "{ \"mediaDataSource\": { \"isLive\": true, \"cors\": true, \"withCredentials\": false } }";
+    /// <summary>
+    /// 播放器将具有可变大小
+    /// </summary>
+    [Parameter]
+    public bool Fluid { get; set; } = true;
 
+    /// <summary>
+    /// 严格大于 0 的数字数组，其中 1 表示正常速度 （100%）、0.5表示半速（50%）、2表示双速（200%）等
+    /// </summary>
+    [Parameter]
+    public double[] PlaybackRates { get; set; } = new[] { 0.5, 1, 1.5, 2, 2.5, 3 };
 
     /// <summary>
     /// 显示调试信息
@@ -162,10 +195,10 @@ public partial class VideoPlayer : IAsyncDisposable
             await JSRuntime.InvokeAsync<IJSObjectReference>("import", VideoJsPath);
 
             //flv
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import",$"./_content/XiaoFengBlazor.VideoPlayer/flv.js");
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/videojs-flvjs.min.js"
-                );
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/flv.js");
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/XiaoFengBlazor.VideoPlayer/videojs-flvjs.min.js");
 
+            //function
             Module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/XiaoFengBlazor.VideoPlayer/VideoPlayer.razor.js" + "?v=" + Ver);
 
             Language = Language ?? CultureInfo.CurrentCulture.Name;
@@ -217,18 +250,15 @@ public partial class VideoPlayer : IAsyncDisposable
                     Preload = Preload,
                     Poster = Poster,
                     Language = Language,
-                    TechOrder = new[] { "html5", "flvjs" },
-                    Flvjs = new FlvOptions
-                    {
-                        MediaDataSource = new FlvOptions.MediaDataSourceOption
-                        {
-                            IsLive = true,
-                            Cors = true,
-                            WithCredentials = false
-                        }
-                    }
+                    TechOrder = TechOrder,
+                    Flvjs = Flvjs,
+                    InactivityTimeout = InactivityTimeout,
+                    Liveui = Liveui,
+                    Fluid = Fluid,
+                    PlaybackRates = PlaybackRates,
                 };
                 option.Sources.Add(new VideoSources(MineType, Url));
+                //option.Sources.Add(Sources);
                 await Module.InvokeVoidAsync("loadPlayer", Instance, Id, option);
             }
         }
@@ -240,7 +270,7 @@ public partial class VideoPlayer : IAsyncDisposable
     /// <param name="url"></param>
     /// <param name="mineType"></param>
     /// <returns></returns>
-    public virtual async Task Reload(string url, string mineType)
+    public virtual async Task Reload(string url, EnumVideoType mineType)
     {
         Url = url;
         MineType = mineType;
