@@ -1,22 +1,134 @@
-﻿# 欢迎使用 XiaoFeng.Onvif 工具库
-
-**在你的项目中添加nuget包引用，搜索 XiaoFeng.Onvif**
-
-![fayelf](https://user-images.githubusercontent.com/16105174/197918392-29d40971-a8a2-4be4-ac17-323f1d0bed82.png)
-
-![GitHub top language](https://img.shields.io/github/languages/top/zhuovi/xiaofeng.Onvif?logo=github)
-![GitHub License](https://img.shields.io/github/license/zhuovi/xiaofeng.Onvif?logo=github)
-![Nuget Downloads](https://img.shields.io/nuget/dt/xiaofeng.Onvif?logo=nuget)
-![Nuget](https://img.shields.io/nuget/v/xiaofeng.Onvif?logo=nuget)
-![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/xiaofeng.Onvif?label=dev%20nuget&logo=nuget)
-
-Nuget：XiaoFeng.Onvif
-
-| QQ群号 | QQ群 | 公众号 |
+﻿```
+感谢这篇文章的教程：https://www.cnblogs.com/densen2014/p/16981092.html  Blazor组件自做十三: VideoPlayer 视频播放器
+自学一下Blazor，我也做个视频播放器玩玩
+```
+﻿# 欢迎使用 XiaoFengBlazor.VideoPlayer 工具库
+ | QQ群号 | QQ群 | 公众号 |
 | :----:| :----: | :----: |
 | 748408911  | ![QQ 群](https://user-images.githubusercontent.com/16105174/198058269-0ea5928c-a2fc-4049-86da-cca2249229ae.png) | ![畅聊了个科技](https://user-images.githubusercontent.com/16105174/198059698-adbf29c3-60c2-4c76-b894-21793b40cf34.jpg) |
 
-源码： https://github.com/zhuovi/xiaofeng.Onvif
+使用方法:
+
+1.nuget包
+
+```XiaoFengBlazor.VideoPlayer```
+
+2._Imports.razor 文件 或者页面添加 添加组件库引用
+
+```@using XiaoFengBlazor.Components```
+
+
+3.razor页面
+```
+<VideoPlayer MineType=EnumVideoType.m3u8 Url="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
+
+<VideoPlayer MineType=EnumVideoType.mp4 Url="//vjs.zencdn.net/v/oceans.mp4" />
+
+<VideoPlayer MineType=EnumVideoType.mp4 Url="//vjs.zencdn.net/v/oceans.mp4" Width="400" Height="300" Autoplay="false" Poster="//vjs.zencdn.net/v/oceans.png" />
+
+```
+
+### 批量视频播放
+```
+@page "/counter"
+<PageTitle>Counter</PageTitle>
+
+<VideoPlayer MineType=EnumVideoType.mp4 Url="http://192.168.0.194:80/rtp/02930F45.live.mp4" VideoJsPath="./video/video.min.js"
+             CssPath="./video/video-js.min.css" Liveui=true SourcesList=@videoSources  />
+
+@code {
+    List<VideoSources> videoSources = new List<VideoSources>
+    {
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-30-23-23.mp4"),
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-32-25-24.mp4"),
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-34-27-25.mp4"),
+        new VideoSources(EnumVideoType.mp4, "http://192.168.0.194:80/record/rtp/02930F45/2023-12-09/22-36-29-26.mp4")
+    };
+}
+
+```
+###  http...flv播放
+```
+@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+ 
+<VideoPlayer MineType=EnumVideoType.flv
+             Url="http://192.168.0.194:80/rtp/02930F45.live.flv"
+             Width="400"
+             Height="300"
+             Autoplay="true"
+             Liveui=true
+             VideoJsPath="./video/video.min.js"
+             CssPath="./video/video-js.min.css" />
+```
+
+### ws...flv播放 4/6/9宫格 播放
+```
+@page "/ninegrid"
+<PageTitle>4宫格</PageTitle>
+
+<div class="grid-container">
+    @for (int i = 0; i < 4; i++)
+    {
+        <div class="grid-item">
+            <VideoPlayer MineType=EnumVideoType.flv
+                         Url="ws://192.168.0.194:80/rtp/02930F45.live.flv"
+                         Width="400"
+                         Height="300"
+                         Autoplay="true"
+                         Liveui=true
+                         VideoJsPath="./video/video.min.js"
+                         CssPath="./video/video-js.min.css" />
+        </div>
+    }
+</div>
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+.grid-item {
+  padding: 20px;
+  text-align: center;
+}
+</style>
+```
+
+
+4.参数说明
+
+|  类型   |  参数   | 说明  | 默认值  | 
+|  ----  |  ----  | ----  | ----  | 
+| string | Url  | 资源地址 | null | 
+| string | MineType  | 资源类型,video/mp4, application/x-mpegURL, video/ogg .. 更多参考 EnumVideoType | application/x-mpegURL | 
+| int | Width  | 宽度 | 300 | 
+| int | Height  | 高度 | 200 | 
+| bool | Controls  | 显示控制条 | true | 
+| bool | Autoplay  | 自动播放 | true | 
+| string | Poster  | 设置封面资源,相对或者绝对路径 |  | 
+| string | Language  | 界面语言,默认 获取当前文化, 例如 zh-CN / en-US,如果语言包不存在,回退到 zh-CN | 当前文化 | 
+| VideoPlayerOption | Option  | 播放器选项, 不为空则优先使用播放器选项,否则使用参数构建 | null | 
+| async Task |  Reload(string? url, string? type) | 切换播放资源 | |
+| async Task |  SetPoster(string? poster) | 设置封面 | |
+| string |  VideoJsPath | 因为video.js版本问题，8.0之后对flv ws支持不友好，直接报错，于是我使用了7.0的js。所以我在调用的位置，使用我指定的js版本 参考这个 https://cdn.bootcdn.net/ajax/libs/video.js/7.21.5/alt/video.core.min.js |
+| string |  CssPath |  因为video.js版本问题，8.0之后对flv ws支持不友好，直接报错，于是我使用了7.0的js。所以我在调用的位置，使用我指定的css版本 |
+| int |  InactivityTimeout |  用于定义用户在多少毫秒内没有与播放器进行交互之后，系统会将其判定为“不活跃”,设置0 是不用判断 |
+| string |  CssPath |  因为video.js版本问题，8.0之后对flv ws支持不友好，直接报错，于是我使用了7.0的js。所以我在调用的位置，使用我指定的css版本 |
+| bool |  Liveui |  允许玩家使用新的实时 UI |
+| bool |  Fluid |  播放器将具有可变大小 |
+| bool |  Debug |  显示调试信息 |
+| double[]  |  PlaybackRates | 严格大于 0 的数字数组，其中 1 表示正常速度 （100%）、0.5表示半速（50%）、2表示双速（200%）等 |
+
+##效果图如下：
+![image](https://github.com/itchangc/XiaoFengBlazor.VideoPlayer/assets/40175292/3e396c05-e511-4591-9b5c-adfb5adee1ab)
+
+![image](https://github.com/itchangc/XiaoFengBlazor.VideoPlayer/assets/40175292/1f36c446-ae5c-4fba-bf84-a9ee3f1a0ac1)
+
+![image](https://github.com/itchangc/XiaoFengBlazor.VideoPlayer/assets/40175292/58ec3ecb-08c6-4c2b-ad91-9f34c3322236)
+
 
 # XiaoFeng 类库包含库
 | 命名空间 | 所属类库 | 开源状态 | 说明 | 包含功能 |
@@ -43,63 +155,3 @@ Nuget：XiaoFeng.Onvif
 | XiaoFeng.GB28181 | XiaoFeng.GB28181 | :white_check_mark: | 视频监控库，SIP类库，GB28181协议 | 开发中 |
 | XiaoFeng.Onvif | XiaoFeng.Onvif | :white_check_mark: | 视频监控库Onvif协议 | XiaoFeng.Onvif 基于.NET平台使用C#封装Onvif常用接口、设备、媒体、云台等功能， 拒绝WCF服务引用动态代理生成wsdl类文件 ， 使用原生XML扩展标记语言封装参数，所有的数据流向都可控。 |
 
-# XiaoFeng.Onvif
-
-#### 基本用法
-```
-using XiaoFeng.Onvif;
-
-var ip = "192.168.12.2";
-var port=8088;
-var user = "onvif";
-var pass = "123456";
-
-var iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-
-var resu = await DeviceService.DiscoveryOnvif(3);
-
-var onvifUTCDateTime = await DeviceService.GetSystemDateAndTime(iPEndPoint);
-var info = await DeviceService.GetDeviceInformation(iPEndPoint, user, pass, onvifUTCDateTime);
-var abilities= await DeviceService.GetCapabilities(iPEndPoint);
-var tokens = await MediaService.GetProfiles(iPEndPoint, user, pass, onvifUTCDateTime);
-var streamUri = await MediaService.GetStreamUri(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0]);
-var img = await MediaService.GetSnapshotUri(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0]);
-
-await PTZService.GetStatus(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0]);
-await PTZService.SetHomePosition(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0]);
-await PTZService.AbsoluteMove(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0], 0, 0);
-await PTZService.ContinuousMove(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0], 0.6, 0.2, 1);
-await PTZService.RelativeMove(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0], 0.8, 0.5, 0.5);
-await PTZService.GotoHomePosition(iPEndPoint, user, pass, onvifUTCDateTime, tokens[0], 0.3, 1, 1);
-
-```
-
-#### 开源初衷
-```
-在调研Onvif封装工具的时候，发现.NET 社区很少有开源的onvif项目，
-有的项目还是付费的,人家直接开价，源码收费xxxx元。
-
-经过内心激烈的挣扎，于是自己研发了一版.NET Core开源的项目。
-本项目长期开源，基础功能都做好了，当然我自己的精力是有限的，
-众人拾柴火焰高，希望对音视频领域感兴趣的小伙伴一起加入吧！
-
-技术这东西，生不带来，死不带去，
-技术来自于社区，我们回馈于社区。
-互联网是有记忆的，等到我们七老八十了，
-还能登录网站回味自己曾经的辉煌！
-```
-```
-初版是先实现相关基础功能，后期可以做成服务或者系统，希望同道朋友一起来完善.NET社区的音视频领域的技术
-```
-#### 本项目开源100%免费
-#### 本项目开源100%免费
-#### 本项目开源100%免费
-```
-开源不易，路过的小伙伴可以给小编在github点个个小星星，以此激励一下小编！
-```
-#### 联系我
-因为github访问网络确实慢，除了更新代码，本人访问github频次也低，
-如果有疑问的小伙伴可以关注公众号，在线联系
-
-
-![畅聊了个科技](https://user-images.githubusercontent.com/40175292/195968118-430de82a-864e-48f4-9d82-e01a33b06b0a.jpg)
